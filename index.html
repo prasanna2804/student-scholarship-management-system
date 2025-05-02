@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">Scholarship Portal</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about-scholarship">About Scholarship</a></li>
+                <li><a href="#about-schemes">About Scheme</a></li>
+                <li><a href="login_student.html">Student Login</a></li>
+                <li><a href="admin/login_admin.php">Admin Login</a></li>
+                <li><a href="admin/faq.php" class="faq-link">❓ View FAQs</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-text">
+            <h1>Student Scholarship Management System</h1>
+            <p>Apply for scholarships and track your application status with ease.</p><br><br>
+            <a href="login_student.html" class="btn">Student Login</a><br><br>
+            <a href="admin/login_admin.php" class="btn">Admin Login</a>
+
+        </div>
+    </section>
+      <section class="slider">
+                    <div class="slides">
+                        <img src="scholarship1.jpg" alt="Scholarship Image 1">
+                        <img src="scholarship2.jpg" alt="Scholarship Image 2">
+                        <img src="Scholarship3.jpg" alt="Scholarship Image 3">
+                       <img src="Scholarship4.jpg" alt="Scholarship Image 3">
+                    </div>
+                    <div class="slider-controls">
+                        <button onclick="prevSlide()">&#60;</button>
+                        <button onclick="nextSlide()">&#62;</button>
+                    </div>
+                </section>
+
+    <!-- About Scholarship -->
+    <section id="about-scholarship" class="info-section">
+        <center><h2 style="font-size:30px;">About Scholarships</h2></center>
+        <p><p style="text-align:justify; font-size:20px;">Scholarships provide financial support to students based on merit, category, or financial need.
+        We propose the implementation of a scholarship program aimed at supporting talented students from low-income families.
+        This initiative seeks to bridge the gap between financial limitations and educational opportunities, enabling deserving students to pursue their academic aspirations and unlock their potential.
+        Scholarships will be awarded to selected students to cover their tuition fees, educational materials, transportation costs, and other necessary expenses.
+        The scholarship amount will be determined based on the financial needs of the students and the educational institution's fee structure.</p>
+</p>
+    </section>
+
+    <!-- About Schemes -->
+    <section id="about-schemes" class="info-section">
+        <center><h2 style="font-size:30px;">Scholarship Schemes</h2></center>
+        <ul>
+            <center><li><strong style="font-size:25px;">Post-Matric Scholarship:</strong></center> <p style="text-align:justify; font-size:20px;">For students pursuing higher studies beyond 10th grade.
+             Should be pursuing post-matric courses in recognized institutions.
+            The annual parental income should not exceed ₹2,50,000.
+            Students can apply through their respective educational institutions.</p>
+</li>
+            <center><li><strong style="font-size:25px;">SC Scholarship:</strong></center> <p style="text-align:justify; font-size:20px;"> Students must belong to Scheduled Castes, Scheduled Tribes, or Adi Dravidar communities.
+            Must be residents of Tamil Nadu.
+            Should be pursuing post-matric courses in recognized institutions.
+            The annual parental income should not exceed ₹2,50,000.</p>
+</li>
+            <center><li><strong style="font-size:25px;">BC & MBC Scholarship:</strong></center> <p style="text-align:justify; font-size:20px;">For students belonging to Backward & Most Backward Classes.Must be residents of Tamil Nadu.
+            Should be studying in recognized post-matric courses (i.e., courses beyond the 10th standard).
+            For BC students, the annual parental income should not exceed ₹2,50,000. There is no income limit for MBC and DNC students</p></li>
+        </ul>
+    </section>
+<br> <br>
+
+    <!-- Footer -->
+    <footer>
+        <center><p>&copy; 2025 Student Scholarship Management System. All rights reserved.</p></center>
+    </footer>
+<script>
+let index = 0;
+        function showSlide() {
+            const slides = document.querySelector('.slides');
+            slides.style.transform = `translateX(-${index * 100}%)`;
+        }
+        function prevSlide() {
+            index = (index === 0) ? 2 : index - 1;
+            showSlide();
+        }
+        function nextSlide() {
+            index = (index === 2) ? 0 : index + 1;
+            showSlide();
+        }
+    </script>
+
+</body>
+</html>

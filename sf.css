@@ -1,0 +1,93 @@
+/* Scholarship Application Form - Stylish and Colorful CSS */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #87CEEB, #4682B4); /* Sky Blue Gradient */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 25px; /* Increased gap between input boxes */
+}
+
+label {
+    font-weight: bold;
+    color: #444;
+    display: block;
+    width: 250px; /* Added gap between label and input box */
+    margin-right: 20px;
+     margin-bottom: 10px;
+}
+
+
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #ff5e62;
+    box-shadow: 0 0 5px rgba(255, 94, 98, 0.5);
+}
+
+button {
+    background: #ff5e62;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff9966;
+}
+
+.file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-upload label {
+    background: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.file-upload input {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+    }
+}
+

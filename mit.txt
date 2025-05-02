@@ -1,0 +1,93 @@
+<?php
+session_start();
+include 'db.php'; // Include database connection
+
+if (!isset($_SESSION['student_id'])) {
+    die("Access Denied");
+}
+
+$student_id = $_SESSION['student_id']; // Get student ID from session
+
+// Validate and get form data
+$roll_no = mysqli_real_escape_string($conn, $_POST['roll_no']);
+$student_online_id = mysqli_real_escape_string($conn, $_POST['student_id']);
+$course = mysqli_real_escape_string($conn, $_POST['course']);
+$year = mysqli_real_escape_string($conn, $_POST['year']);
+$student_name = mysqli_real_escape_string($conn, $_POST['student_name']);
+$guardian_name = mysqli_real_escape_string($conn, $_POST['guardian_name']);
+$address = mysqli_real_escape_string($conn, $_POST['address']);
+$bank_ac_no = mysqli_real_escape_string($conn, $_POST['bank_ac_no']);
+$bank_name = mysqli_real_escape_string($conn, $_POST['bank_name']);
+$branch_name = mysqli_real_escape_string($conn, $_POST['branch_name']);
+$ifsc_code = mysqli_real_escape_string($conn, $_POST['ifsc_code']);
+$sex = mysqli_real_escape_string($conn, $_POST['sex']);
+$aadhaar_no = mysqli_real_escape_string($conn, $_POST['aadhaar_no']);
+$dob = mysqli_real_escape_string($conn, $_POST['dob']);
+$community = mysqli_real_escape_string($conn, $_POST['community']);
+$mobile_student = mysqli_real_escape_string($conn, $_POST['mobile_student']);
+$mobile_parent = mysqli_real_escape_string($conn, $_POST['mobile_parent']);
+$student_email = mysqli_real_escape_string($conn, $_POST['student_email']);
+$other_scholarship = mysqli_real_escape_string($conn, $_POST['other_scholarship']);
+$hostel = mysqli_real_escape_string($conn, $_POST['hostel']);
+
+// Handle file uploads securely
+$target_dir = "uploads/";
+$allowed_types = ["jpg", "jpeg", "png", "pdf"];
+$uploaded_files = [];
+
+// File upload handling function
+function uploadFile($input_name, $target_dir) {
+    $file_name = basename($_FILES[$input_name]["name"]);
+    $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    
+    if (!in_array($file_type, ["jpg", "jpeg", "png", "pdf"])) {
+        return null; // Invalid file type
+    }
+
+    $new_name = uniqid() . "_" . $file_name; // Rename to prevent overwriting
+    $target_file = $target_dir . $new_name;
+
+    if (move_uploaded_file($_FILES[$input_name]["tmp_name"], $target_file)) {
+        return $target_file; // Return file path
+    }
+
+    return null;
+}
+
+// Upload all required documents
+$uploaded_files['id_card'] = uploadFile("identity_card", $target_dir);
+$uploaded_files['bonafide_certificate'] = uploadFile("bonafide_certificate", $target_dir);
+$uploaded_files['marksheets'] = uploadFile("marksheets", $target_dir);
+$uploaded_files['income_certificate'] = uploadFile("income_certificate", $target_dir);
+$uploaded_files['community_certificate'] = uploadFile("community_certificate", $target_dir);
+$uploaded_files['bank_passbook'] = uploadFile("bank_passbook", $target_dir);
+$uploaded_files['fee_challan'] = uploadFile("tuition_fees", $target_dir);
+$uploaded_files['aadhaar_card'] = uploadFile("aadhaar_card", $target_dir);
+$uploaded_files['attendance_certificate'] = uploadFile("attendance_certificate", $target_dir);
+
+// Store application data
+$sql = "INSERT INTO applications (
+    student_id, roll_no, student_online_id, course, year, student_name, 
+    father_name, address, bank_name, branch_name, ifsc_code, sex, aadhaar_no, dob, 
+    community, mobile_student, mobile_parent, student_email, received_scholarship, hostel_status, 
+
+    id_card, bonafide_certificate, marksheets, income_certificate, community_certificate, 
+    bank_passbook, fee_challan, aadhaar_card, attendance_certificate, applied_at
+) VALUES (
+    '$student_id', '$roll_no', '$student_online_id', '$course', '$year', '$student_name', 
+    '$guardian_name', '$address', '$bank_name', '$branch_name', '$ifsc_code', '$sex', '$aadhaar_no', '$dob', 
+    '$community', '$mobile_student', '$mobile_parent', '$student_email', '$other_scholarship', '$hostel', 
+
+    '{$uploaded_files['id_card']}', '{$uploaded_files['bonafide_certificate']}', '{$uploaded_files['marksheets']}', 
+    '{$uploaded_files['income_certificate']}', '{$uploaded_files['community_certificate']}', '{$uploaded_files['bank_passbook']}', 
+    '{$uploaded_files['fee_challan']}', '{$uploaded_files['aadhaar_card']}', '{$uploaded_files['attendance_certificate']}', NOW()
+)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Application submitted successfully!";
+} else {
+    echo "Error: " . $conn->error;
+}
+
+$conn->close();
+?>

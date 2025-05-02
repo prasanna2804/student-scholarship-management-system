@@ -1,0 +1,157 @@
+<?php
+session_start();
+include('../db.php');
+
+// Check if admin is logged in
+if (!isset($_SESSION['admin_logged_in'])) {
+    header("Location: login_admin.php");
+    exit();
+}
+
+// Fetch scholarships
+$scholarships = mysqli_query($conn, "SELECT * FROM scholarships");
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST['scholarship_id'];
+    $eligibility = mysqli_real_escape_string($conn, $_POST['eligibility']);
+
+    $query = "UPDATE scholarships SET eligibility='$eligibility' WHERE id=$id";
+    if (mysqli_query($conn, $query)) {
+        echo "<script>alert('Criteria updated successfully!'); window.location.href='view_scholarships.php';</script>";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set Scholarship Criteria</title>
+    <link rel="stylesheet" href="admin_style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style> 
+      /* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #6CB4EE;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styling */
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+/* Headings */
+h2 {
+    text-align: center;
+    font-weight: 600;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+/* Form Inputs */
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: #6610f2;
+    box-shadow: 0px 0px 8px rgba(102, 16, 242, 0.4);
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    color: #495057;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #6610f2;
+}
+
+/* Table Styling */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.table td {
+    text-align: center;
+    padding: 10px;
+}
+
+/* Action Buttons */
+.btn-warning {
+    background-color: #ffae42;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin-top: 20px;
+    }
+    
+    .table {
+        font-size: 14px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Set Scholarship Criteria</h2>
+        <form method="post">
+            <div class="mb-3">
+                <label>Select Scholarship</label>
+                <select name="scholarship_id" class="form-control" required>
+                    <?php while ($row = mysqli_fetch_assoc($scholarships)) { ?>
+                        <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Eligibility Criteria</label>
+                <textarea name="eligibility" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Criteria</button>
+        </form>
+    </div>
+</body>
+</html>
